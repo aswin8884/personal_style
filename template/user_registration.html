@@ -1,0 +1,110 @@
+{% extends 'common_base.html' %}
+{% block content %}
+
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="container pt-4 pb-sm-4">
+            <h4 class="inner-text-title font-weight-bold pt-sm-5 pt-4">User</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="/">Home</a></li>
+                <li class="active"><i class="fas fa-angle-right mx-2"></i>User</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="w3l-contact-11 py-5" id="contact">
+    <div class="container py-lg-5 py-md-4 py-2">
+        <h3 class="title-style text-center mb-lg-5 mb-4"><span>User Registration</span></h3>
+
+        <div class="form-inner-cont mx-auto" style="max-width:500px">
+            <form method="post" enctype="multipart/form-data" class="signin-form" onsubmit="return validateForm()">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <input type="text" name="name" id="w3lName" placeholder="Name" required minlength="3" 
+                           pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" />
+                </div>
+
+                <div class="form-group">
+                    <textarea placeholder="Address" name="address" id="w3lMessage" required minlength="10"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="contact" id="contact" placeholder="Phone Number" required 
+                           pattern="^\d{10}$" title="Enter a 10-digit phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="profile_picture" class="d-block">Profile Picture</label>
+                    <input type="file" name="profile_picture" class="form-control-file" required accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" id="w3lSender" placeholder="Email" required 
+                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address">
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="password" id="w3lPassword" placeholder="Password" required 
+                           minlength="6" title="Password must be at least 6 characters">
+                </div>
+
+                <div class="submit text-right">
+                    <button type="submit" class="btn btn-style" style="margin-left: 160px;">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Display any backend validation messages -->
+{% if messages %}
+{% for m in messages %}
+<script>alert("{{ m }}")</script>
+{% endfor %}
+{% endif %}
+
+<script>
+    function validateForm() {
+        const name = document.getElementById("w3lName").value.trim();
+        const address = document.getElementById("w3lMessage").value.trim();
+        const contact = document.getElementById("contact").value.trim();
+        const email = document.getElementById("w3lSender").value.trim();
+        const password = document.getElementById("w3lPassword").value.trim();
+
+        // Name validation
+        if (!/^[A-Za-z\s]{3,}$/.test(name)) {
+            alert("Name should be at least 3 characters and contain only letters and spaces.");
+            return false;
+        }
+
+        // Address validation
+        if (address.length < 10) {
+            alert("Address should be at least 10 characters.");
+            return false;
+        }
+
+        // Phone number validation
+        if (!/^\d{10}$/.test(contact)) {
+            alert("Phone Number should be exactly 10 digits.");
+            return false;
+        }
+
+        // Email validation
+        if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        // Password validation
+        if (password.length < 6) {
+            alert("Password should be at least 6 characters long.");
+            return false;
+        }
+
+        return true; // Form is valid
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+
+<style>
+    .badge-custom {
+        display: inline-block;
+        padding: 0.25em 0.5em;
+        font-size: 0.875em;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+
+    .badge-success-custom {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-warning-custom {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-info img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-left: 10px;
+    }
+
+    .table-custom th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+</style>
+
+<section class="container my-5">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover table-custom">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Outfit</th>
+                    <th>Outfit Name</th>
+                    <th>User</th>
+                    <th>Tailor</th>
+                    <th>Booked On</th>
+                    <th>Price</th>
+                    <th>Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in bookings %}
+                <tr>
+                    <td>
+                        <img src="../static/media/{{b.outfit_id.image}}" alt="{{b.outfit_id.name}}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    </td>
+                    <td>{{b.outfit_id.name}}</td>
+                    <td>
+                        <div class="profile-info">
+                            {{b.user_id.name}}
+                            <img src="../static/media/{{b.user_id.profile_picture}}" alt="{{b.user_id.name}}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="profile-info">
+                            {{b.tailor_id.name}}
+                            <img src="../static/media/{{b.tailor_id.profile_picture}}" alt="{{b.tailor_id.name}}">
+                        </div>
+                    </td>
+                    <td>{{b.request_on}}</td>
+                    <td>{{b.price}}</td>
+                    <td>
+                        <span class="badge-custom {% if b.payment_status %}badge-success-custom{% else %}badge-warning-custom{% endif %}">
+                            {% if b.payment_status %}Booked{% else %}Pending{% endif %}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

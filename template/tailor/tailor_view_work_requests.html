@@ -1,0 +1,76 @@
+{% extends 'tailor/tailor_base.html' %}
+{% block content %}
+
+<style>
+    .badge-custom {
+        display: inline-block;
+        padding: 0.25em 0.5em;
+        font-size: 0.875em;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+
+    .badge-success-custom {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-warning-custom {
+        background-color: #ffc107;
+        color: #212529;
+    }
+</style>
+
+<section class="container my-5">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Outfit</th>
+                    <th>Outfit Name</th>
+                    <th>User</th>
+                    <th>Quantity</th>
+                    <th>Requested On</th>
+                    <th>Request Status</th>
+                    <th>Payment Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in works %}
+                <tr>
+                    <td>
+                        <img src="../static/media/{{w.outfit_id.image}}" alt="{{w.outfit_id.name}}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    </td>
+                    <td>{{w.outfit_id.name}}</td>
+                    <td>{{w.user_id.name}}</td>
+                    <td>{{w.quantity}}</td>
+                    <td>{{w.request_on}}</td>
+                    <td>
+                    {% if w.accept_status %}    
+                        <a href="/tailor_sent_work_update_user?id={{w.id}}"><Button class="btn btn-success">Update</Button></a>
+                    {% else %}
+                        <a href="/tailor_accept_work?id={{w.id}}"><Button class="btn btn-info">Accept</Button></a>
+                    {% endif %}
+                    </td>
+                    <td>
+                        {% if w.payment_status %}
+                        Amount Recived
+                        {% else %}
+                        Pending
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+
+
+{% endblock %}

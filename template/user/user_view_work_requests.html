@@ -1,0 +1,111 @@
+{% extends 'user/user_base.html' %}
+{% block content %}
+
+<style>
+    .badge-custom {
+        display: inline-block;
+        padding: 0.25em 0.5em;
+        font-size: 0.875em;
+        font-weight: 600;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+
+    .badge-success-custom {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-warning-custom {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-pay {
+        margin-top: 0.5rem;
+        font-size: 0.875em;
+    }
+
+    .table-custom th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+</style>
+
+<section class="inner-banner py-5 text-white">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="container pt-4 pb-sm-4">
+            <h4 class="inner-text-title font-weight-bold pt-sm-5 pt-4">View Requests</h4>
+            <ul class="breadcrumbs-custom-path d-flex list-unstyled">
+                <li><a href="/user_home" class="text-white">Home</a></li>
+                <li class="active text-white">
+                    <i class="fas fa-angle-right mx-2"></i>View Requests
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="container my-5">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-custom">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Outfit</th>
+                    <th>Outfit Name</th>
+                    <th>Tailor</th>
+                    <th>Quantity</th>
+                    <th>Requested On</th>
+                    <th>Request Status</th>
+                    <th>Delivery Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in works %}
+                <tr>
+                    <td>
+                        <img src="../static/media/{{w.outfit_id.image}}" alt="{{w.outfit_id.name}}" class="img-thumbnail" style="width: 100px; height: auto;">
+                    </td>
+                    <td>{{w.outfit_id.name}}</td>
+                    <td>{{w.tailor_id.name}}</td>
+                    <td>{{w.quantity}}</td>
+                    <td>{{w.request_on}}</td>
+                    <td>
+                        {% if w.accept_status %}
+                            {% if w.payment_status %}
+                                Booking Confirmed
+                            {% else %}
+                                Work Accepted
+                                <a href="/payment_user_for_work_tailor?id={{w.id}}">
+                                    <button class="btn btn-primary btn-pay">
+                                        Pay {{w.price}} Now
+                                    </button>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            Pending
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if w.payment_status %}
+                            Delivery by {{w.delivery_date}}
+                        {% else %}
+                            Pending
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

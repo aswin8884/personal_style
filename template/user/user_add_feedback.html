@@ -1,0 +1,59 @@
+{% extends "user/user_base.html" %}
+{% block content %}
+
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="container pt-4 pb-sm-4">
+            <h4 class="inner-text-title font-weight-bold pt-sm-5 pt-4">Add Feedbacks</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="/">Home</a></li>
+                <li class="active"><i class="fas fa-angle-right mx-2"></i>Add Feedbacks</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="w3l-contact-11">
+    <div class="form-41-mian py-5">
+        <div class="container py-lg-4">
+            <div class="row align-form-map">
+                <div class="col-lg-6 contact-left pr-lg-4 mb-4">
+                    <div class="partners">
+                        <div class="cont-details">
+                            <div class="title-content text-left">
+                                <h6 class="sub-title">Rate Us</h6>
+                                <h3 class="hny-title">Share Your Review</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 form-inner-cont">
+                    <div class="title-content text-center">
+                        <h3 class="hny-title mb-lg-5 mb-4">Send Your Feedback</h3>
+                    </div>
+                    <form method="post" class="signin-form">
+                        {% csrf_token %}
+                        <div class="form-input mb-3">
+                            <textarea placeholder="Write your feedback here..." name="feedback" id="w3lMessage" required="" class="form-control"></textarea>
+                        </div>
+                        <div class="form-top-right mb-4 text-center">
+                            <h5 class="mb-2">Give Us A Rating</h5>
+                            <select name="rating" class="rating form-control w-50 mx-auto" required>
+                                <option value="1">⭐</option>
+                                <option value="2">⭐⭐</option>
+                                <option value="3">⭐⭐⭐</option>
+                                <option value="4">⭐⭐⭐⭐</option>
+                                <option value="5">⭐⭐⭐⭐⭐</option>
+                            </select>
+                        </div>
+                        <div class="submit-button text-center">
+                            <button type="submit" class="btn btn-style btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

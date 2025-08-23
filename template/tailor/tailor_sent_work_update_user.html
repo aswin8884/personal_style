@@ -1,0 +1,35 @@
+{% extends 'tailor/tailor_base.html' %}
+{% block content %}
+
+<div class="col-lg-12" >
+    <div class="card">
+        <div class="card-header">
+            <strong>Add Updates</strong> 
+        </div>
+        <div class="card-body card-block">
+            <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                {% csrf_token %}
+              
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Price</label></div>
+                    <div class="col-12 col-md-9"><input type="text" id="text-input" name="price" placeholder="Enter Price" class="form-control"><small class="form-text text-muted"></small></div>
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Delivery Date</label></div>
+                    <div class="col-12 col-md-9"><input type="date" id="text-input" name="delivery_date" placeholder="Enter Name" class="form-control"><small class="form-text text-muted"></small></div>
+                </div>
+              
+     
+                    <button type="submit" style="margin-left: 550px;" class="btn btn-outline-info">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+{% for m in messages %}
+<script>alert("{{m}}")</script>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'stylist/stylist_base.html' %}
+{% block content %}
+
+<style>
+    .table-stats {
+        overflow-x: auto;
+    }
+
+    .table thead th {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .outfit-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .name {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 15px;
+    }
+
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-group .btn {
+        margin: 0 5px; /* Adds space between buttons */
+    }
+</style>
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Outfits</strong>
+                    </div>
+                    <div class="table-stats order-table ov-h">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width: 150px;">Image</th>
+                                    <th>Name</th>
+                                    <th style="width: 180px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for o in outfits %}
+                                <tr>
+                                    <td>
+                                        <img src="../static/media/{{o.image}}" alt="{{o.name}}" class="outfit-image">
+                                    </td>
+                                    <td class="align-middle">
+                                        <span class="name">{{o.name}}</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="btn-group">
+                                                <a href="/stylist_update_outfit_design?id={{o.id}}" class="btn btn-outline-primary">Update</a>
+                                                <a href="/stylist_remove_outfit_design?id={{o.id}}" class="btn btn-outline-danger">Remove</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div> <!-- /.table-stats -->
+                </div>
+            </div>
+        </div>
+    </div><!-- .animated -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'user/user_base.html' %}
+{% block content %}
+
+<section class="inner-banner py-5">
+    <div class="w3l-breadcrumb py-lg-5">
+        <div class="container pt-4 pb-sm-4">
+            <h4 class="inner-text-title font-weight-bold pt-sm-5 pt-4">Request Works</h4>
+            <ul class="breadcrumbs-custom-path">
+                <li><a href="/">Home</a></li>
+                <li class="active"><i class="fas fa-angle-right mx-2"></i>Request Works</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="w3l-contact-11 py-5" id="contact">
+    <div class="container py-lg-5 py-md-4 py-2">
+        <h3 class="title-style text-center mb-lg-5 mb-4"><span>Request Works</span></h3>
+
+        <div class="form-inner-cont mx-auto" style="max-width: 500px;">
+            <form method="post" enctype="multipart/form-data" class="signin-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="name" id="w3lName" placeholder="Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="contact" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="quantity" placeholder="Quantity Needed" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Shipping Address" name="shipping_address" id="w3lMessage" required></textarea>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Details" name="details" id="w3lMessage" required></textarea>
+                </div>
+               
+
+                <div class="form-group">
+                    <label for="outfitSelection">Select an Outfit:</label><br><br><br>
+                    <div class="row">
+                        {% for outfit in outfits %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card outfit-card" data-outfit-id="{{ outfit.id }}" onclick="selectOutfit('{{ outfit.id }}')">
+                                <img src="../static/media/{{ outfit.image }}" class="card-img-top" alt="{{ outfit.name }}" style="height: 150px; object-fit: cover;">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="outfit_id" id="selectedOutfitId" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tailorSelection">Select a Tailor:</label><br><br><br>
+                    <div class="row">
+                        {% for tailor in tailors %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card tailor-card" data-tailor-id="{{ tailor.id }}" onclick="selectTailor('{{ tailor.id }}')">
+                                <img src="../static/media/{{ tailor.profile_picture }}" class="card-img-top" alt="{{ tailor.name }}" style="height: 150px; object-fit: cover;">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ tailor.name }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="tailor_id" id="selectedTailorId" required>
+                </div>
+
+                <div class="submit">
+                    <button type="submit" style="margin-left: 220px;" class="btn btn-style">Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function selectTailor(id) {
+        // Highlight the selected tailor card
+        document.querySelectorAll('.tailor-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        const selectedCard = document.querySelector(`.tailor-card[data-tailor-id="${id}"]`);
+        selectedCard.classList.add('selected');
+        
+        // Set the selected tailor ID in the hidden input
+        document.getElementById('selectedTailorId').value = id;
+    }
+
+    function selectOutfit(id) {
+        // Highlight the selected outfit card
+        document.querySelectorAll('.outfit-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        const selectedCard = document.querySelector(`.outfit-card[data-outfit-id="${id}"]`);
+        selectedCard.classList.add('selected');
+
+        // Set the selected outfit ID in the hidden input
+        document.getElementById('selectedOutfitId').value = id;
+    }
+</script>
+
+<style>
+    .tailor-card, .outfit-card {
+        border: 2px solid #ddd;
+        cursor: pointer;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+    .tailor-card.selected, .outfit-card.selected {
+        border-color: #007bff;
+        transform: scale(1.05);
+    }
+    .tailor-card img, .outfit-card img {
+        width: 100%;
+        border-radius: 5px;
+    }
+</style>
+
+{% endblock %}

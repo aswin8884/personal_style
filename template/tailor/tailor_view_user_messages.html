@@ -1,0 +1,166 @@
+{% extends "tailor/tailor_base.html" %}
+{% block content %}
+
+<style>
+    .chat-card {
+        background-color: #f5f5f5;
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.2s ease-in-out;
+        margin-bottom: 20px;
+    }
+
+    .chat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .user-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #555;
+    }
+
+    .profile-img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        margin-right: 10px;
+    }
+
+    .chat-left, .chat-right {
+        display: flex;
+        align-items: center;
+    }
+
+    .chat-left {
+        justify-content: flex-start;
+    }
+
+    .chat-right {
+        justify-content: flex-end;
+        text-align: right;
+    }
+
+    .chatbox-message, .chatbox-reply {
+        border-radius: 10px;
+        padding: 10px 15px;
+        max-width: 75%;
+    }
+
+    .chatbox-message {
+        background-color: #e1ffc7;
+        border-radius: 10px 10px 10px 0;
+    }
+
+    .chatbox-reply {
+        background-color: #d1ecf1;
+        border-radius: 10px 10px 0 10px;
+    }
+
+    .alert {
+        font-size: 0.9rem;
+        background-color: #ffefd5;
+        border: none;
+        color: #856404;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .reply-form {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .reply-input {
+        flex: 1;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+    }
+
+    .reply-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .reply-button:hover {
+        background-color: #0056b3;
+    }
+
+    h2 {
+        font-family: 'Poppins', sans-serif;
+        color: #444;
+    }
+</style>
+
+<section class="w3l-chatbox py-5" id="chatbox">
+    <div class="container py-md-5 py-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <h2 class="mb-4 text-center">Chat with Users</h2>
+
+                {% for c in chats %}
+                <div class="card chat-card shadow-sm">
+                    <div class="card-body">
+                        <!-- User's message on the left -->
+                        <div class="chat-left mb-3">
+                            <img src="../static/media/{{c.user_id.profile_picture}}" alt="user" class="profile-img">
+                            <div class="chatbox-message">
+                                <h5 class="user-name">{{ c.user_id.name }}</h5>
+                                <p class="card-text">{{ c.message }}</p>
+                                <small class="text-muted">Sent on: {{ c.message_on }}</small>
+                            </div>
+                        </div>
+
+                        {% if c.reply %}
+                        <!-- tailor's reply on the right -->
+                        <div class="chat-right mt-3">
+                            <div class="chatbox-reply">
+                                <img src="../static/media/{{c.tailor_id.profile_picture}}" alt="tailor" class="profile-img">
+                                <h5 class="user-name">You</h5>
+                                <p class="card-text">{{ c.reply }}</p>
+                                <small class="text-muted">Replied on: {{ c.reply_on }}</small>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="alert mt-3" role="alert">
+                            Reply pending from you.
+                            <form action="/tailor_reply_user?id={{ c.id }}" method="POST" class="reply-form">
+                                {% csrf_token %}
+                                <input type="text" name="reply" class="reply-input" placeholder="Type your reply here..." required>
+                                <button type="submit" class="reply-button">Reply</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

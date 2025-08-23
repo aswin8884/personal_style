@@ -1,0 +1,43 @@
+{% extends 'admin/admin_base.html' %}
+{% block content %}
+
+<div class="content">
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong class="card-title">Tailor Requests</strong>
+                    </div>
+                    <div class="table-stats order-table ov-h">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th class="avatar">Avatar</th>
+                                    <th>Name</th>
+                                    <th>City</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for t in tailors %}
+                                <tr>
+                                    <td class="avatar">
+                                        <div class="round-img">
+                                            <a href="/admin_view_tailor_request_single?id={{t.id}}"><img class="rounded-circle" src="../static/media/{{t.profile_picture}}" alt=""></a>
+                                        </div>
+                                    </td>
+                                    <td>  <span class="name">{{t.name}}</span> </td>
+                                    <td>  <span class="name">{{t.city}}</span> </td>
+                                    <td> <span class="product">{{t.contact}}</span> </td>
+                                    <td> <span class="product">{{t.email}}</span> </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div> <!-- /.table-stats -->
+                </div>
+            </div>
+
+{% endblock %}
